@@ -3,9 +3,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const http = require("http");
 const socketIo = require("socket.io");
+const path = require("path");
 const { Chat } = require("./schema.cjs");
 const { login, signup, authorizeToken } = require("./controllers.cjs");
-require("dotenv").config();
+require("dotenv").config({ path: "server/.env" });
 
 mongoose
   .connect(
@@ -27,7 +28,7 @@ app.use(express.json());
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:5173",
   },
 });
 
@@ -59,6 +60,7 @@ app.post("/signup", signup);
 app.post("/login", login);
 
 io.on("connection", (socket) => {
+  console.log("a user connected to socket");
   // everyone joins the public chat
   socket.join("chat-public");
 

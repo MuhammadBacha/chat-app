@@ -7,12 +7,6 @@ import PrivateChatForm from "./PrivateChatForm";
 import socket from "../../services/socket";
 import WelcomePage from "./WelcomePage";
 
-const chatNamesList = [
-  { label: "Public", param: "", chatType: "public" },
-  { label: "NUSTIANS", param: "nustians", chatType: "private" },
-  { label: "GOODz", param: "goodz", chatType: "private" },
-];
-
 function ChatMessages() {
   const { chatName } = useParams();
   const [messages, setMessages] = useState([]);
