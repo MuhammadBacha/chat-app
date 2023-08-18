@@ -26,7 +26,7 @@ function Signup() {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:3000/signup",
+        "https://chat-app-umber-seven-59.vercel.app/signup",
         requestOptions
       );
 

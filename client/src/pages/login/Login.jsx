@@ -26,7 +26,7 @@ function Login() {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/login",
+        "https://chat-app-umber-seven-59.vercel.app/login",
         requestOptions
       );
 
