@@ -27,6 +27,7 @@ app.use(cors());
 app.use(express.json());
 const server = http.createServer(app);
 const io = socketIo(server, {
+  path: "https://chat-app-bice-ten.vercel.app",
   cors: {
     origin: "*",
   },
