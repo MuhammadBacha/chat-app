@@ -26,7 +26,7 @@ function Signup() {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:5000/signup",
+        "https://chat-app-bice-ten.vercel.app/signup",
         requestOptions
       );
 

@@ -26,7 +26,7 @@ function Login() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/login",
+        "https://chat-app-bice-ten.vercel.app/login",
         requestOptions
       );
 
