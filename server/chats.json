@@ -1,0 +1,29 @@
+[
+  {
+    "headingName": "Public",
+    "name": "public",
+    "chatType": "public",
+    "messages": [
+      { "sender": "coder314", "text": "h1" },
+      { "sender": "gulkhan", "text": "hi dear" }
+    ]
+  },
+  {
+    "headingName": "NUSTIANS",
+    "name": "nustians",
+    "chatType": "private",
+    "messages": [
+      { "sender": "nustian1", "text": "i got 130" },
+      { "sender": "nustian1", "text": "i have aggregate of 70%" }
+    ]
+  },
+  {
+    "headingName": "GOODz",
+    "name": "goodz",
+    "chatType": "private",
+    "messages": [
+      { "sender": "goodz1", "text": "i am good boy" },
+      { "sender": "goodz2", "text": "i am bad boy" }
+    ]
+  }
+]
