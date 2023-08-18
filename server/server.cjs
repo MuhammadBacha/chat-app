@@ -25,7 +25,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 const server = http.createServer(app);
-const io = socketIo(server, { cors: { origin: "http://localhost:5173" } });
+const io = socketIo(server, { cors: { origin: "*" } });
 
 app.get("/chatNamesList", async (_, res) => {
   // return certain fields from messages

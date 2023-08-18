@@ -26,7 +26,7 @@ function Signup() {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://chat-app-umber-seven-59.vercel.app/signup",
+        "https://chat-app-bice-ten.vercel.app/signup",
         requestOptions
       );
 

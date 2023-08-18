@@ -1,6 +1,6 @@
 export async function fetchMessages(token, chatName) {
   const response = await fetch(
-    `https://chat-app-umber-seven-59.vercel.app/${chatName}`,
+    `https://chat-app-bice-ten.vercel.app/${chatName}`,
     {
       headers: {
         Authorization: token,

@@ -11,7 +11,7 @@ function ChatBar({ location }) {
     async function fetchChatNames() {
       // no need to check for token, already checked when fetching messages
       const response = await fetch(
-        "https://chat-app-umber-seven-59.vercel.app/chatNamesList"
+        "https://chat-app-bice-ten.vercel.app/chatNamesList"
       );
       const { data } = await response.json();
       setChatNamesList(data);
