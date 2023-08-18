@@ -2,8 +2,8 @@
   "version": 2,
   "builds": [
     {
-      "src": "server.cjs",
-      "use": "@now/node"
+      "src": "./server.cjs",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
