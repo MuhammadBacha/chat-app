@@ -18,7 +18,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-const server = http.createServer(app);
+
 const pusher = new Pusher({
   appId: process.env.APP_ID,
   key: process.env.API_KEY,
@@ -131,6 +131,6 @@ app.post("/login", login);
 //   // });
 // });
 
-server.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, () => {
   console.log("Connection made to the server!");
 });
