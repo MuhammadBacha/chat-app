@@ -45,6 +45,8 @@ function Signup() {
     }
   };
 
+  const password = watch("password"); // Get value of password field
+
   return (
     <div className="relative flex flex-col justify-center h-screen overflow-hidden">
       <div className="w-full p-6 m-auto shadow-md lg:max-w-xl border-solid border-2 border-primary rounded-xl">
