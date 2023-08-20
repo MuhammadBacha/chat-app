@@ -46,13 +46,11 @@ app.post("/message", async (req, res) => {
   const newMessage = { text, sender, sentAt };
 
   // will come back later
-  await Chat.updateOne({ name: chatName }, { $push: { messages: newMessage } });
 
   // SHOW NEW MESSAGE TO OTHERS
-
-  // pusher.trigger(chatName, "message", {text,sender}); will come back later to this
-  console.log(chatName);
   pusher.trigger(chatName, "message", { text, sender, chatName });
+
+  await Chat.updateOne({ name: chatName }, { $push: { messages: newMessage } });
 });
 
 //make post request if you want to join, upon success, join the channel from the client
