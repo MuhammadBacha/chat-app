@@ -2,12 +2,22 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const http = require("http");
-const socketIo = require("socket.io");
-const path = require("path");
 const Pusher = require("pusher");
 const { Chat } = require("./schema.cjs");
 const { login, signup, authorizeToken } = require("./controllers.cjs");
 require("dotenv").config({ path: "server/.env" });
+
+/*TASKS
+1- Fetching messages
+2- Fetching Chatlist
+3- Adding messages to database along with time
+4- Login from database
+5- Add user upon sign up in datbase */
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+const server = http.createServer(app);
 
 const pusher = new Pusher({
   appId: process.env.APP_ID,
@@ -23,23 +33,6 @@ mongoose
   )
   .then(() => console.log("connection to database made!"))
   .catch((err) => console.log(err));
-
-/*TASKS
-  1- Fetching messages
-  2- Fetching Chatlist
-  3- Adding messages to database along with time
-  4- Login from database
-  5- Add user upon sign up in datbase */
-
-const app = express();
-app.use(cors());
-app.use(express.json());
-const server = http.createServer(app);
-const io = socketIo(server, {
-  cors: {
-    origin: "*",
-  },
-});
 
 app.post("/message", async (req, res) => {
   const { text, sender, chatName, sentAt } = req.body;
