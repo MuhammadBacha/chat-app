@@ -6,7 +6,12 @@
       "use": "@vercel/node"
     }
   ],
-
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "server.cjs"
+    }
+  ],
   "headers": [
     {
       "source": "/*",
@@ -23,6 +28,5 @@
         }
       ]
     }
-  ],
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  ]
 }
