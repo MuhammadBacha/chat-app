@@ -15,7 +15,11 @@ require("dotenv").config({ path: "server/.env" });
 5- Add user upon sign up in datbase */
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 app.use(express.json());
 const server = http.createServer(app);
 
