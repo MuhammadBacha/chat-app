@@ -15,7 +15,7 @@ require("dotenv").config();
 5- Add user upon sign up in datbase */
 
 const app = express();
-const allowCors = (fn) => async (req, res) => {
+const allowCors = async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.setHeader("Access-Control-Allow-Origin", "*");
   // another common pattern
@@ -32,7 +32,6 @@ const allowCors = (fn) => async (req, res) => {
     res.status(200).end();
     return;
   }
-  return await fn(req, res);
 };
 app.use(allowCors);
 app.use(cors());
