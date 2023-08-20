@@ -1,5 +1,6 @@
 import { io } from "socket.io-client";
-const socket = io("https://chat-app-bice-ten.vercel.app", {
+import { API_URL } from "./constant";
+const socket = io(API_URL, {
   transports: ["websocket"],
 });
 

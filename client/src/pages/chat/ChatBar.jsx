@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuthContext } from "../../auth/userContext";
-
 function ChatBar({ location }) {
   const [chatNamesList, setChatNamesList] = useState([]);
   const [loading, setLoading] = useState(false);
   const { setUserData } = useAuthContext();
   useEffect(() => {
-    console.log("h1");
     async function fetchChatNames() {
       // no need to check for token, already checked when fetching messages
       const response = await fetch(
-        "https://chat-app-bice-ten.vercel.app/chatNamesList"
+        `${import.meta.env.VITE_API_URL}/chatNamesList`
       );
       const { data } = await response.json();
       setChatNamesList(data);

@@ -26,7 +26,7 @@ function Signup() {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://chat-app-bice-ten.vercel.app/signup",
+        `${import.meta.env.VITE_API_URL}/signup`,
         requestOptions
       );
 
@@ -44,8 +44,6 @@ function Signup() {
       setLoading(false);
     }
   };
-
-  const password = watch("password"); // Get value of password field
 
   return (
     <div className="relative flex flex-col justify-center h-screen overflow-hidden">

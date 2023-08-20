@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { pusher } from "../../services/pusher";
 import ChatBubble from "./ChatBubble";
 import { useAuthContext } from "../../auth/userContext";
 import { useParams } from "react-router-dom";
@@ -17,6 +18,7 @@ function ChatMessages() {
   } = useAuthContext();
 
   const access = chatsAccess[chatName];
+
   useEffect(() => {
     if (access || chatName) {
       setLoading(true);
@@ -27,15 +29,48 @@ function ChatMessages() {
         })
         .finally(() => setLoading(false));
     }
-
+    // const channel = pusher.subscribe("public");
+    // channel.bind("message", (message) => {
+    //   console.log(message);
+    // });
     socket.on("update-messages", (newMessage) => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
     return () => {
       socket.off("update-messages");
-      setMessages([]); //reset state upon unmount
+      // channel.unbind("message");
+      // setMessage ([]); //reset state upon unmount
     };
   }, [chatName, access]);
+
+  // ------------------------- COULD BE USEFUL -----------------------------------------
+  // useEffect(() => {
+  //   if (access || chatName) {
+  //     setLoading(true);
+  //     fetchMessages(token, chatName)
+  //       .then((data) => {
+  //         // console.log(data);
+  //         setMessages(data.data || []);
+  //       })
+  //       .finally(() => setLoading(false));
+  //   }
+
+  //   pusher.subscribe("public");
+
+  //   pusher.bind("message", (newMessage) => {
+  //     console.log(newMessage);
+  //     setMessages((prevMessages) => [...prevMessages, newMessage]);
+  //   });
+  //   // socket.on("update-messages", (newMessage) => {
+  //   // });
+  //   return () => {
+  //     // socket.off("update-messages");
+  //     // channel?.unbind("message");
+  //     pusher.unsubscribe("public");
+  //     pusher.unbind("message");
+  //     // setMessage ([]); //reset state upon unmount
+  //   };
+  // }, [chatName, access]);
 
   useEffect(() => {
     //auto scroll bottom whenever new message is added

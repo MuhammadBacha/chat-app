@@ -26,7 +26,7 @@ function Login() {
 
     try {
       const response = await fetch(
-        "https://chat-app-bice-ten.vercel.app/login",
+        `${import.meta.env.VITE_API_URL}/login`,
         requestOptions
       );
 
