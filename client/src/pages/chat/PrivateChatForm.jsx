@@ -1,5 +1,6 @@
 import { useState } from "react";
-import socket from "../../services/socket";
+// import socket from "../../services/socket";
+import { pusher } from "../../services/pusher";
 import { useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useAuthContext } from "../../auth/userContext";
@@ -11,18 +12,43 @@ function PrivateChatForm() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    socket.emit("join-private", { password, chatName });
-    socket.once("private-joined", ({ status, message }) => {
-      // console.log(result);
-      if (status === "failure") return toast.error(message, { duration: 800 });
-      setUserData((prev) => {
-        return {
-          ...prev,
-          chatsAccess: { ...prev.chatsAccess, [chatName]: true },
-        };
+    fetch(`${import.meta.env.VITE_API_URL}/join-private`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chatName,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const { status, message } = data;
+        if (status === "failure")
+          return toast.error(message, { duration: 800 });
+        pusher.subscribe(chatName);
+        setUserData((prev) => {
+          return {
+            ...prev,
+            chatsAccess: { ...prev.chatsAccess, [chatName]: true },
+          };
+        });
+        toast.success(message);
       });
-      toast.success(message);
-    });
+
+    // socket.emit("join-private", { password, chatName });
+    // socket.once("private-joined", ({ status, message }) => {
+    //   // console.log(result);
+    //   if (status === "failure") return toast.error(message, { duration: 800 });
+    //   setUserData((prev) => {
+    //     return {
+    //       ...prev,
+    //       chatsAccess: { ...prev.chatsAccess, [chatName]: true },
+    //     };
+    //   });
+    //   toast.success(message);
+    // });
   }
   return (
     <form

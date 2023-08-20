@@ -10,10 +10,10 @@ const { login, signup, authorizeToken } = require("./controllers.cjs");
 require("dotenv").config({ path: "server/.env" });
 
 const pusher = new Pusher({
-  appId: "1655421",
-  key: "bdcdb75fe41d3d700262",
-  secret: "f19cd2e46a717cd8b75e",
-  cluster: "ap2",
+  appId: process.env.APP_ID,
+  key: process.env.API_KEY,
+  secret: process.env.API_SECRET,
+  cluster: process.env.CLUSTER,
   useTLS: true,
 });
 
@@ -42,8 +42,8 @@ const io = socketIo(server, {
 });
 
 app.post("/message", async (req, res) => {
-  const { text, sender, chatName } = req.body;
-  const newMessage = { text, sender, sentAt: new Date() };
+  const { text, sender, chatName, sentAt } = req.body;
+  const newMessage = { text, sender, sentAt };
 
   // will come back later
   await Chat.updateOne({ name: chatName }, { $push: { messages: newMessage } });
@@ -103,42 +103,42 @@ app.get("/:chatName", authorizeToken, async (req, res) => {
 app.post("/signup", signup);
 app.post("/login", login);
 
-io.on("connection", (socket) => {
-  // everyone joins the public chat
-  socket.join("chat-public");
+// io.on("connection", (socket) => {
+//   // everyone joins the public chat
+//   socket.join("chat-public");
 
-  // socket.on("message", async (newMessage) => {
-  //   const { text, sender, chatName } = newMessage;
-  //   newMessage.sentAt = new Date();
+//   // socket.on("message", async (newMessage) => {
+//   //   const { text, sender, chatName } = newMessage;
+//   //   newMessage.sentAt = new Date();
 
-  //   await Chat.updateOne(
-  //     { name: chatName },
-  //     { $push: { messages: newMessage } }
-  //   );
+//   //   await Chat.updateOne(
+//   //     { name: chatName },
+//   //     { $push: { messages: newMessage } }
+//   //   );
 
-  //   // SHOW NEW MESSAGE TO OTHERS
-  //   io.in(`chat-${chatName}`).emit("update-messages", {
-  //     text,
-  //     sender,
-  //   });
-  // });
+//   //   // SHOW NEW MESSAGE TO OTHERS
+//   //   io.in(`chat-${chatName}`).emit("update-messages", {
+//   //     text,
+//   //     sender,
+//   //   });
+//   // });
 
-  // socket.on("join-private", async ({ chatName, password }) => {
-  //   let message, status;
-  //   const { password: chatPassword } = await Chat.findOne({
-  //     name: chatName,
-  //   }).select("password");
-  //   if (password === chatPassword) {
-  //     socket.join(`chat-${chatName}`);
-  //     status = "sucess";
-  //     message = `Joined Private Chat Sucessfully!`;
-  //   } else {
-  //     status = "failure";
-  //     message = "Invalid Chat Password";
-  //   }
-  //   socket.emit("private-joined", { status, message });
-  // });
-});
+//   // socket.on("join-private", async ({ chatName, password }) => {
+//   //   let message, status;
+//   //   const { password: chatPassword } = await Chat.findOne({
+//   //     name: chatName,
+//   //   }).select("password");
+//   //   if (password === chatPassword) {
+//   //     socket.join(`chat-${chatName}`);
+//   //     status = "sucess";
+//   //     message = `Joined Private Chat Sucessfully!`;
+//   //   } else {
+//   //     status = "failure";
+//   //     message = "Invalid Chat Password";
+//   //   }
+//   //   socket.emit("private-joined", { status, message });
+//   // });
+// });
 
 server.listen(process.env.PORT, () => {
   console.log("Connection made to the server!");

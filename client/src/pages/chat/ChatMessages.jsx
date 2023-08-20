@@ -5,7 +5,7 @@ import { useAuthContext } from "../../auth/userContext";
 import { useParams } from "react-router-dom";
 import { fetchMessages } from "../../services/helpers";
 import PrivateChatForm from "./PrivateChatForm";
-import socket from "../../services/socket";
+// import socket from "../../services/socket";
 import WelcomePage from "./WelcomePage";
 
 function ChatMessages() {
@@ -19,31 +19,6 @@ function ChatMessages() {
 
   const access = chatsAccess[chatName];
 
-  useEffect(() => {
-    if (access || chatName) {
-      setLoading(true);
-      fetchMessages(token, chatName)
-        .then((data) => {
-          // console.log(data);
-          setMessages(data.data || []);
-        })
-        .finally(() => setLoading(false));
-    }
-    // const channel = pusher.subscribe("public");
-    // channel.bind("message", (message) => {
-    //   console.log(message);
-    // });
-    socket.on("update-messages", (newMessage) => {
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
-    });
-    return () => {
-      socket.off("update-messages");
-      // channel.unbind("message");
-      // setMessage ([]); //reset state upon unmount
-    };
-  }, [chatName, access]);
-
-  // ------------------------- COULD BE USEFUL -----------------------------------------
   // useEffect(() => {
   //   if (access || chatName) {
   //     setLoading(true);
@@ -54,23 +29,46 @@ function ChatMessages() {
   //       })
   //       .finally(() => setLoading(false));
   //   }
-
-  //   pusher.subscribe("public");
-
-  //   pusher.bind("message", (newMessage) => {
-  //     console.log(newMessage);
+  //   // const channel = pusher.subscribe("public");
+  //   // channel.bind("message", (message) => {
+  //   //   console.log(message);
+  //   // });
+  //   socket.on("update-messages", (newMessage) => {
   //     setMessages((prevMessages) => [...prevMessages, newMessage]);
   //   });
-  //   // socket.on("update-messages", (newMessage) => {
-  //   // });
   //   return () => {
-  //     // socket.off("update-messages");
-  //     // channel?.unbind("message");
-  //     pusher.unsubscribe("public");
-  //     pusher.unbind("message");
+  //     socket.off("update-messages");
+  //     // channel.unbind("message");
   //     // setMessage ([]); //reset state upon unmount
   //   };
   // }, [chatName, access]);
+
+  // ------------------------- COULD BE USEFUL -----------------------------------------
+  useEffect(() => {
+    if (access || chatName) {
+      setLoading(true);
+      fetchMessages(token, chatName)
+        .then((data) => {
+          // console.log(data);
+          setMessages(data.data || []);
+        })
+        .finally(() => setLoading(false));
+    }
+
+    pusher.subscribe("public");
+
+    pusher.bind("message", (newMessage) => {
+      console.log(newMessage);
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    });
+    // socket.on("update-messages", (newMessage) => {
+    // });
+    return () => {
+      pusher.unsubscribe("public");
+      pusher.unbind("message");
+      setMessages([]); //reset state upon unmount
+    };
+  }, [chatName, access]);
 
   useEffect(() => {
     //auto scroll bottom whenever new message is added

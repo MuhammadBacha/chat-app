@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { useAuthContext } from "../../auth/userContext";
 import { useParams } from "react-router-dom";
-import socket from "../../services/socket";
+// import socket from "../../services/socket";
 
 function ChatInput() {
   const { chatName } = useParams();
@@ -13,11 +13,24 @@ function ChatInput() {
   const [currentMessage, setCurrentMessage] = useState("");
   function handleMessage() {
     if (!currentMessage || !chatName) return;
-    socket.emit("message", {
-      text: currentMessage,
-      sender: currentUser,
-      chatName: chatName,
-    });
+    fetch(`${import.meta.env.VITE_API_URL}/message`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sender: currentUser,
+        chatName,
+        text: currentMessage,
+        sentAt: new Date(),
+      }),
+    }).then((res) => res.json());
+
+    // socket.emit("message", {
+    //   text: currentMessage,
+    //   sender: currentUser,
+    //   chatName: chatName,
+    // });
     setCurrentMessage("");
   }
   return (
