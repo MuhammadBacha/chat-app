@@ -5,7 +5,7 @@ const http = require("http");
 const Pusher = require("pusher");
 const { Chat } = require("./schema.cjs");
 const { login, signup, authorizeToken } = require("./controllers.cjs");
-require("dotenv").config({ path: "server/.env" });
+require("dotenv").config();
 
 /*TASKS
 1- Fetching messages
