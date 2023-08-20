@@ -7,11 +7,12 @@ import { useAuthContext } from "../../auth/userContext";
 
 function PrivateChatForm() {
   const { setUserData } = useAuthContext();
+  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const { chatName } = useParams();
   function handleSubmit(e) {
     e.preventDefault();
-
+    setLoading(true);
     fetch(`${import.meta.env.VITE_API_URL}/join-private`, {
       method: "POST",
       headers: {
@@ -35,20 +36,8 @@ function PrivateChatForm() {
           };
         });
         toast.success(message);
-      });
-
-    // socket.emit("join-private", { password, chatName });
-    // socket.once("private-joined", ({ status, message }) => {
-    //   // console.log(result);
-    //   if (status === "failure") return toast.error(message, { duration: 800 });
-    //   setUserData((prev) => {
-    //     return {
-    //       ...prev,
-    //       chatsAccess: { ...prev.chatsAccess, [chatName]: true },
-    //     };
-    //   });
-    //   toast.success(message);
-    // });
+      })
+      .finally(() => setLoading(false));
   }
   return (
     <form
@@ -65,9 +54,16 @@ function PrivateChatForm() {
           placeholder="Enter password here"
           className="input input-primary input-bordered w-full max-w-xs"
           value={password}
+          disabled={loading}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button className="btn btn-primary cursor-pointer animate-none">
+        <button
+          className="btn btn-primary cursor-pointer animate-none disabled:opacity-100 disabled:bg-primary disabled:text-opacity-100"
+          disabled={loading}
+        >
+          {loading && (
+            <span className=" loading loading-spinner loading-md"></span>
+          )}
           Submit
         </button>
       </div>
