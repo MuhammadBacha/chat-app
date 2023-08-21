@@ -6,14 +6,23 @@ This is a chatting app with public as well as private channels. It is enhanced w
 TECH STACK
 -
 Frontend - React
+
 Styling - TailwindCSS
+
 UI Library - DaisyUI
+
 Form Handling - react-hook-form
+
 Toasts - react-hot-toast
+
 User Authentication - Custom
+
 Backend - Express with nodeJS
+
 Database - MongoDB
+
 ODM - Mongoose
+
 Deployment - Vercel
 
 NOTE
